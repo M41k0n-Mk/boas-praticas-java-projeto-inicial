@@ -1,7 +1,5 @@
 package br.com.alura.adopet.api.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -30,6 +28,16 @@ public class Adocao {
 
     private String justificativaStatus;
 
+    public Adocao() {}
+
+    public Adocao(Tutor tutor, Pet pet, String motivo) {
+        this.tutor = tutor;
+        this.pet = pet;
+        this.motivo = motivo;
+        this.status = StatusAdocao.AGUARDANDO_AVALIACAO;
+        this.data = LocalDateTime.now();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -55,40 +63,29 @@ public class Adocao {
         return data;
     }
 
-    public void setData(LocalDateTime data) {
-        this.data = data;
-    }
-
     public Tutor getTutor() {
         return tutor;
-    }
-
-    public void setTutor(Tutor tutor) {
-        this.tutor = tutor;
     }
 
     public Pet getPet() {
         return pet;
     }
 
-    public void setPet(Pet pet) {
-        this.pet = pet;
-    }
-
     public String getMotivo() {
         return motivo;
-    }
-
-    public void setMotivo(String motivo) {
-        this.motivo = motivo;
     }
 
     public StatusAdocao getStatus() {
         return status;
     }
 
-    public void setStatus(StatusAdocao status) {
-        this.status = status;
+    public void marcarComoAprovada() {
+        this.status = StatusAdocao.APROVADO;
+    }
+
+    public void marcarComoReprovada(String justificativa) {
+        this.status = StatusAdocao.REPROVADO;
+        this.justificativaStatus = justificativa;
     }
 
     public String getJustificativaStatus() {

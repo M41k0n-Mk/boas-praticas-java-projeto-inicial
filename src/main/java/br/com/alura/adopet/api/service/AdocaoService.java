@@ -37,12 +37,7 @@ public class AdocaoService {
 
         validacoes.forEach(v -> v.validar(solicitacaoAdocaoDto));
 
-        Adocao adocao = new Adocao();
-        adocao.setData(LocalDateTime.now());
-        adocao.setStatus(StatusAdocao.AGUARDANDO_AVALIACAO);
-        adocao.setPet(pet);
-        adocao.setTutor(tutor);
-        adocao.setMotivo(solicitacaoAdocaoDto.motivo());
+        Adocao adocao = new Adocao(tutor, pet, solicitacaoAdocaoDto.motivo());
 
         repository.save(adocao);
 
@@ -56,7 +51,7 @@ public class AdocaoService {
 
     public void aprovar(AprovacaoAdocaoDto aprovacaoAdocaoDto) {
         Adocao adocao = repository.getReferenceById(aprovacaoAdocaoDto.idAdocao());
-        adocao.setStatus(StatusAdocao.APROVADO);
+        adocao.marcarComoAprovada();
 
         //repository.save(adocao); //redundante?
 
@@ -73,8 +68,7 @@ public class AdocaoService {
 
     public void reprovar(ReprovacaoAdocaoDto reprovacaoAdocaoDto) {
         Adocao adocao = repository.getReferenceById(reprovacaoAdocaoDto.idAdocao());
-        adocao.setStatus(StatusAdocao.REPROVADO);
-        adocao.setJustificativaStatus(reprovacaoAdocaoDto.justificativa());
+        adocao.marcarComoReprovada(reprovacaoAdocaoDto.justificativa());
 
         //repository.save(reprovacaoAdocaoDto); //redundante??
 
