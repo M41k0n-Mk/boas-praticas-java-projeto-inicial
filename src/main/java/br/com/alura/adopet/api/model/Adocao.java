@@ -8,7 +8,6 @@ import java.util.Objects;
 @Entity
 @Table(name = "adocoes")
 public class Adocao {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,7 +27,8 @@ public class Adocao {
 
     private String justificativaStatus;
 
-    public Adocao() {}
+    public Adocao() {
+    }
 
     public Adocao(Tutor tutor, Pet pet, String motivo) {
         this.tutor = tutor;

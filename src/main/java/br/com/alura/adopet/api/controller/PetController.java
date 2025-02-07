@@ -15,7 +15,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/pets")
 public class PetController {
-
     @Autowired
     private PetRepository repository;
 
@@ -30,5 +29,4 @@ public class PetController {
         }
         return ResponseEntity.ok(disponiveis);
     }
-
 }

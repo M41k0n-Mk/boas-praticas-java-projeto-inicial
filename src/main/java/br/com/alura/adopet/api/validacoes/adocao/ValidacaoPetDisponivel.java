@@ -1,4 +1,4 @@
-package br.com.alura.adopet.api.validacoes;
+package br.com.alura.adopet.api.validacoes.adocao;
 
 import br.com.alura.adopet.api.dto.SolicitacaoAdocaoDto;
 import br.com.alura.adopet.api.exception.ValidacaoException;
@@ -18,5 +18,4 @@ public class ValidacaoPetDisponivel implements ValidacaoSolicitacaoAdocao {
             throw new ValidacaoException("Pet já foi adotado!");
         }
     }
-
 }

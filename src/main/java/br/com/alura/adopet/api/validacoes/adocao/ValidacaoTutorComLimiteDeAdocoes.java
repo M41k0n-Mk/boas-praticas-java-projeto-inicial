@@ -1,4 +1,4 @@
-package br.com.alura.adopet.api.validacoes;
+package br.com.alura.adopet.api.validacoes.adocao;
 
 import br.com.alura.adopet.api.dto.SolicitacaoAdocaoDto;
 import br.com.alura.adopet.api.exception.ValidacaoException;
@@ -14,7 +14,6 @@ import java.util.List;
 
 @Component
 public class ValidacaoTutorComLimiteDeAdocoes implements ValidacaoSolicitacaoAdocao {
-
     @Autowired
     private AdocaoRepository adocaoRepository;
 
@@ -34,6 +33,4 @@ public class ValidacaoTutorComLimiteDeAdocoes implements ValidacaoSolicitacaoAdo
             }
         }
     }
-
 }
-

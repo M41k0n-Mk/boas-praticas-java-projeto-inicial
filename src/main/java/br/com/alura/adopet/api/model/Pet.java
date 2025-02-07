@@ -10,38 +10,29 @@ import java.util.Objects;
 @Entity
 @Table(name = "pets")
 public class Pet {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
     @Enumerated(EnumType.STRING)
     @NotNull
-    @Column(name = "tipo")
     private TipoPet tipo;
 
     @NotBlank
-    @Column(name = "nome")
     private String nome;
 
     @NotBlank
-    @Column(name = "raca")
     private String raca;
 
     @NotNull
-    @Column(name = "idade")
     private Integer idade;
 
     @NotBlank
-    @Column(name = "cor")
     private String cor;
 
     @NotNull
-    @Column(name = "peso")
     private Float peso;
 
-    @Column(name = "adotado")
     private Boolean adotado;
 
     @ManyToOne
@@ -52,6 +43,11 @@ public class Pet {
     @OneToOne(mappedBy = "pet")
     @JsonBackReference("adocao_pets")
     private Adocao adocao;
+
+    public Pet(Abrigo abrigo, Boolean adotado) {
+        this.abrigo = abrigo;
+        this.adotado = adotado;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -126,16 +122,8 @@ public class Pet {
         return adotado;
     }
 
-    public void setAdotado(Boolean adotado) {
-        this.adotado = adotado;
-    }
-
     public Abrigo getAbrigo() {
         return abrigo;
-    }
-
-    public void setAbrigo(Abrigo abrigo) {
-        this.abrigo = abrigo;
     }
 
     public Adocao getAdocao() {
