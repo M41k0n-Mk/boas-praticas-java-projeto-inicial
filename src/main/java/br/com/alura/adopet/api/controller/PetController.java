@@ -15,8 +15,6 @@ import java.util.List;
 @RequestMapping("/pets")
 public class PetController {
     @Autowired
-    private PetRepository repository;
-    @Autowired
     private PetService petService;
 
     @GetMapping
