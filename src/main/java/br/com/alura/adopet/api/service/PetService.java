@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PetService {
@@ -14,9 +13,10 @@ public class PetService {
     private PetRepository petRepository;
 
     public List<DadosDetalhesPet> listarTodosDisponiveis() {
-        return petRepository.findAll().stream()
-                .filter(pet -> !pet.getAdotado())
+        return petRepository
+                .findAllByAdotadoFalse()
+                .stream()
                 .map(DadosDetalhesPet::new)
-                .collect(Collectors.toList());
+                .toList();
     }
 }
