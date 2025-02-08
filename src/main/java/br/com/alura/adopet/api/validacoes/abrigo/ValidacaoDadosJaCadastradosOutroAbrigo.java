@@ -1,7 +1,7 @@
 package br.com.alura.adopet.api.validacoes.abrigo;
 
+import br.com.alura.adopet.api.dto.CadastroAbrigoDto;
 import br.com.alura.adopet.api.exception.ValidacaoException;
-import br.com.alura.adopet.api.model.Abrigo;
 import br.com.alura.adopet.api.repository.AbrigoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -10,12 +10,11 @@ public class ValidacaoDadosJaCadastradosOutroAbrigo implements ValidacaoAbrigo {
     AbrigoRepository abrigoRepository;
 
     @Override
-    public void validar(Abrigo abrigo) {
-        boolean nomeJaCadastrado = abrigoRepository.existsByNome(abrigo.getNome());
-        boolean telefoneJaCadastrado = abrigoRepository.existsByTelefone(abrigo.getTelefone());
-        boolean emailJaCadastrado = abrigoRepository.existsByEmail(abrigo.getEmail());
+    public void validar(CadastroAbrigoDto cadastroAbrigoDto) {
+        boolean jaCadastrado = abrigoRepository.existsByNomeOrTelefoneOrEmail(cadastroAbrigoDto.nome(),
+                cadastroAbrigoDto.telefone(), cadastroAbrigoDto.email());
 
-        if (nomeJaCadastrado || telefoneJaCadastrado || emailJaCadastrado) {
+        if (jaCadastrado) {
             throw new ValidacaoException("Dados já cadastrados para outro abrigo!");
         }
     }

@@ -1,8 +1,10 @@
 package br.com.alura.adopet.api.controller;
 
+import br.com.alura.adopet.api.dto.AbrigoDto;
+import br.com.alura.adopet.api.dto.CadastroAbrigoDto;
+import br.com.alura.adopet.api.dto.CadastroPetDto;
+import br.com.alura.adopet.api.dto.PetDto;
 import br.com.alura.adopet.api.exception.ValidacaoException;
-import br.com.alura.adopet.api.model.Abrigo;
-import br.com.alura.adopet.api.model.Pet;
 import br.com.alura.adopet.api.repository.AbrigoRepository;
 import br.com.alura.adopet.api.service.AbrigoService;
 import jakarta.validation.Valid;
@@ -17,21 +19,26 @@ import java.util.List;
 @RequestMapping("/abrigos")
 public class AbrigoController {
     @Autowired
-    private AbrigoRepository repository;
+    private AbrigoRepository abrigoRepository;
 
     @Autowired
     private AbrigoService abrigoService;
 
     @GetMapping
-    public ResponseEntity<List<Abrigo>> listar() {
-        return ResponseEntity.ok(repository.findAll());
+    public ResponseEntity<List<AbrigoDto>> listar() {
+        return ResponseEntity.ok(
+                abrigoRepository
+                        .findAll()
+                        .stream()
+                        .map(AbrigoDto::new)
+                        .toList());
     }
 
     @PostMapping
     @Transactional
-    public ResponseEntity<String> cadastrar(@RequestBody @Valid Abrigo abrigo) {
+    public ResponseEntity<String> cadastrar(@RequestBody @Valid CadastroAbrigoDto cadastroAbrigoDto) {
         try {
-            abrigoService.cadastrar(abrigo);
+            abrigoService.cadastrar(cadastroAbrigoDto);
             return ResponseEntity.ok("Abrigo cadastrado com sucesso!");
         } catch (ValidacaoException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -39,9 +46,9 @@ public class AbrigoController {
     }
 
     @GetMapping("/{idOuNome}/pets")
-    public ResponseEntity<List<Pet>> listarPets(@PathVariable String idOuNome) {
+    public ResponseEntity<List<PetDto>> listarPets(@PathVariable String idOuNome) {
         try {
-            List<Pet> pets = abrigoService.listarPets(idOuNome);
+            List<PetDto> pets = abrigoService.listarPetsDoAbrigo(idOuNome);
             return ResponseEntity.ok(pets);
         } catch (ValidacaoException e) {
             return ResponseEntity.notFound().build();
@@ -50,9 +57,9 @@ public class AbrigoController {
 
     @PostMapping("/{idOuNome}/pets")
     @Transactional
-    public ResponseEntity<String> cadastrarPet(@PathVariable String idOuNome, @RequestBody @Valid Pet pet) {
+    public ResponseEntity<String> cadastrarPet(@PathVariable String idOuNome, @RequestBody @Valid CadastroPetDto cadastroPetDto) {
         try {
-            abrigoService.cadastrarPetNoAbrigo(idOuNome, pet);
+            abrigoService.cadastrarPetNoAbrigo(idOuNome, cadastroPetDto);
             return ResponseEntity.ok().build();
         } catch (ValidacaoException e) {
             return ResponseEntity.notFound().build();
