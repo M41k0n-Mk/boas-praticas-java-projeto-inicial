@@ -1,7 +1,7 @@
 package br.com.alura.adopet.api.validacoes.tutor;
 
-import br.com.alura.adopet.api.model.Tutor;
+import br.com.alura.adopet.api.dto.CadastroTutorDto;
 
 public interface ValidacaoCadastrarTutor {
-    public void validar(Tutor tutor);
+    void validar(CadastroTutorDto cadastroTutorDto);
 }

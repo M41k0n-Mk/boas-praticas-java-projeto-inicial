@@ -1,5 +1,6 @@
 package br.com.alura.adopet.api.service;
 
+import br.com.alura.adopet.api.dto.CadastroTutorDto;
 import br.com.alura.adopet.api.model.Tutor;
 import br.com.alura.adopet.api.repository.TutorRepository;
 import br.com.alura.adopet.api.validacoes.tutor.ValidacaoCadastrarTutor;
@@ -15,8 +16,8 @@ public class TutorService {
     @Autowired
     private List<ValidacaoCadastrarTutor> validacoes;
 
-    public void cadastrar(Tutor tutor) {
-        validacoes.forEach(v -> v.validar(tutor));
-        tutorRepository.save(tutor);
+    public void cadastrar(CadastroTutorDto cadastroTutorDto) {
+        validacoes.forEach(v -> v.validar(cadastroTutorDto));
+        tutorRepository.save(new Tutor(cadastroTutorDto));
     }
 }
